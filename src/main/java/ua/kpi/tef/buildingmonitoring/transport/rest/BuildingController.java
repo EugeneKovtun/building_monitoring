@@ -3,6 +3,7 @@ package ua.kpi.tef.buildingmonitoring.transport.rest;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
+import javax.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +24,7 @@ public class BuildingController {
 
 
     @PostMapping("/zone")
-    public Zone createZone(@RequestBody Zone zone) {
+    public Zone createZone(@RequestBody @Valid Zone zone) throws Exception {
         return buildingService.createZone(zone);
     }
 

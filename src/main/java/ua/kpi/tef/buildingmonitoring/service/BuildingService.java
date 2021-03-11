@@ -40,17 +40,12 @@ public class BuildingService {
         return zoneMapper.map(zoneRepository.save(zoneEntity));
     }
 
-    private void prepareUpdatedZoneEntity(Zone zone, ZoneEntity zoneEntity) {
-        zoneEntity.setHumidity(zone.getHumidity());
-        zoneEntity.setTemperature(zone.getTemperature());
-        zoneEntity.setIsPublic(zone.getIsPublic());
-    }
-
     @Transactional
-    public Zone createZone(Zone zone) {
-        mqttAdapter.initializeZone(zone);
+    public Zone createZone(Zone zone) throws Exception {
         zone.setUuid(UUID.randomUUID());
-        return zoneMapper.map(zoneRepository.save(zoneMapper.map(zone)));
+        Zone resultZone = zoneMapper.map(zoneRepository.save(zoneMapper.map(zone)));
+        mqttAdapter.initializeZone(resultZone);
+        return resultZone;
     }
 
 
@@ -63,4 +58,12 @@ public class BuildingService {
                 .map(zoneMapper::map)
                 .collect(Collectors.toList());
     }
+
+    private void prepareUpdatedZoneEntity(Zone zone, ZoneEntity zoneEntity) {
+        zoneEntity.setHumidity(zone.getHumidity());
+        zoneEntity.setTemperature(zone.getTemperature());
+        zoneEntity.setIsPublic(zone.getIsPublic());
+        zoneEntity.setTopic(zone.getTopic());
+    }
+
 }
