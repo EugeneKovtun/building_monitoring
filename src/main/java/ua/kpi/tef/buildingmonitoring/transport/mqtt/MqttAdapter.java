@@ -3,6 +3,7 @@ package ua.kpi.tef.buildingmonitoring.transport.mqtt;
 import java.util.UUID;
 import org.eclipse.paho.client.mqttv3.IMqttClient;
 import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.springframework.stereotype.Component;
 import ua.kpi.tef.buildingmonitoring.domain.Zone;
@@ -14,6 +15,11 @@ public class MqttAdapter {
     IMqttClient publisher = new MqttClient("tcp://localhost:1883",publisherId);
 
     public MqttAdapter() throws MqttException {
+        MqttConnectOptions options = new MqttConnectOptions();
+        options.setAutomaticReconnect(true);
+        options.setCleanSession(true);
+        options.setConnectionTimeout(10);
+        publisher.connect(options);
     }
 
     public Zone initializeZone(Zone zone) {

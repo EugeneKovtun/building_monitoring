@@ -15,19 +15,19 @@ import org.springframework.web.server.ResponseStatusException;
 import ua.kpi.tef.buildingmonitoring.domain.Zone;
 import ua.kpi.tef.buildingmonitoring.service.BuildingService;
 
-@RestController("/zone")
+@RestController
 @AllArgsConstructor
 public class BuildingController {
 
     private final BuildingService buildingService;
 
 
-    @PostMapping
+    @PostMapping("/zone")
     public Zone createZone(@RequestBody Zone zone) {
         return buildingService.createZone(zone);
     }
 
-    @PutMapping("/{uuid}")
+    @PutMapping("/zone/{uuid}")
     public Zone changeZoneParameters(@RequestBody Zone zone, @PathVariable UUID uuid) {
         validateZone(zone);
         try {
