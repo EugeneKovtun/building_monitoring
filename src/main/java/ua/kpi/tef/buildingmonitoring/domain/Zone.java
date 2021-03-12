@@ -10,6 +10,6 @@ public class Zone {
     private Integer temperature;
     private Integer humidity;
     @NotNull
-    private String topic;
+    private String clientId;
     private Boolean isPublic = true;
 }

@@ -9,6 +9,8 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.mapstruct.factory.Mappers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import ua.kpi.tef.buildingmonitoring.domain.Zone;
 import ua.kpi.tef.buildingmonitoring.mapping.ZoneMapper;
@@ -16,10 +18,11 @@ import ua.kpi.tef.buildingmonitoring.mapping.ZoneMapper;
 @Component
 public class MqttAdapter {
 
-    private String publisherId = "monitoring-service";
-    private IMqttClient publisher = new MqttClient("tcp://localhost:1883", publisherId);
-    private ObjectMapper objectMapper = new ObjectMapper();
-    private ZoneMapper zoneMapper;
+    private final String publisherId = "monitoring-service";
+    private final IMqttClient publisher = new MqttClient("tcp://localhost:1883", publisherId);
+    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final Logger LOGGER = LoggerFactory.getLogger(MqttAdapter.class);
+    private final ZoneMapper zoneMapper;
 
     public MqttAdapter() throws MqttException {
         this.zoneMapper = Mappers.getMapper(ZoneMapper.class);
@@ -32,6 +35,7 @@ public class MqttAdapter {
     }
 
     public void initializeZone(Zone zone) throws MqttException, JsonProcessingException {
+        LOGGER.info("Initializing zone: " + zone.toString() );
         MqttMessage mqttMessage = new MqttMessage();
         mqttMessage.setQos(1);
         ZoneMqtt zoneMqtt = zoneMapper.mapToZoneMqtt(zone);
@@ -39,7 +43,7 @@ public class MqttAdapter {
                 objectMapper
                         .writeValueAsString(zoneMqtt)
                         .getBytes(StandardCharsets.UTF_8));
-        publisher.publish(zone.getTopic(), mqttMessage);
+        publisher.publish("server", mqttMessage);
     }
 
     public Zone updateZone(Zone zone) {

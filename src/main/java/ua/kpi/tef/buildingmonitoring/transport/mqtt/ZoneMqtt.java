@@ -6,4 +6,5 @@ import lombok.Data;
 public class ZoneMqtt {
     private Integer temperature;
     private Integer humidity;
+    private String clientId;
 }

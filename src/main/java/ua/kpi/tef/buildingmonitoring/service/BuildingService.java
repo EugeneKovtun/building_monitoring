@@ -63,7 +63,7 @@ public class BuildingService {
         zoneEntity.setHumidity(zone.getHumidity());
         zoneEntity.setTemperature(zone.getTemperature());
         zoneEntity.setIsPublic(zone.getIsPublic());
-        zoneEntity.setTopic(zone.getTopic());
+        zoneEntity.setClientId(zone.getClientId());
     }
 
 }

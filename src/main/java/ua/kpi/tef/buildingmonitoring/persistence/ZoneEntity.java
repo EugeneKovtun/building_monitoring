@@ -16,7 +16,7 @@ public class ZoneEntity {
     @Column(updatable = false, unique = true, nullable = false)
     private UUID uuid;
     @Column(updatable = false, unique = true, nullable = false)
-    private String topic;
+    private String clientId;
     private Integer temperature;
     private Integer humidity;
     private Boolean isPublic;
