@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ZoneRepository extends CrudRepository<ZoneEntity, Long> {
     Optional<ZoneEntity> findByUuid(UUID uuid);
+
+    Optional<ZoneEntity> findByClientId(String clientId);
 }

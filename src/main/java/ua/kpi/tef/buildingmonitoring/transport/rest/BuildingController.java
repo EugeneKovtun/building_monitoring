@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import ua.kpi.tef.buildingmonitoring.domain.Zone;
@@ -18,17 +19,18 @@ import ua.kpi.tef.buildingmonitoring.service.BuildingService;
 
 @RestController
 @AllArgsConstructor
+@RequestMapping("/zone")
 public class BuildingController {
 
     private final BuildingService buildingService;
 
 
-    @PostMapping("/zone")
+    @PostMapping
     public Zone createZone(@RequestBody @Valid Zone zone) throws Exception {
         return buildingService.createZone(zone);
     }
 
-    @PutMapping("/zone/{uuid}")
+    @PutMapping("/{uuid}")
     public Zone changeZoneParameters(@RequestBody Zone zone, @PathVariable UUID uuid) {
         validateZone(zone);
         try {
