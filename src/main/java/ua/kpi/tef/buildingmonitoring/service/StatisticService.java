@@ -2,6 +2,7 @@ package ua.kpi.tef.buildingmonitoring.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import lombok.AllArgsConstructor;
@@ -39,6 +40,12 @@ public class StatisticService {
     public List<StatisticalState> getAll() {
         return StreamSupport.stream(
                 statisticRepository.findAll().spliterator(), true)
+                .map(statisticMapper::map).collect(Collectors.toList());
+    }
+
+    public List<StatisticalState> getStatisticPerRoom(UUID uuid) {
+        return statisticRepository.findByZone(zoneRepository.findByUuid(uuid).get())
+                .parallelStream()
                 .map(statisticMapper::map).collect(Collectors.toList());
     }
 }
