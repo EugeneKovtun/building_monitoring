@@ -20,7 +20,7 @@ import ua.kpi.tef.buildingmonitoring.service.BuildingService;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/zone")
-public class BuildingController {
+public class ZoneController {
 
     private final BuildingService buildingService;
 
