@@ -8,11 +8,13 @@ import {RoomControllerComponent} from './room-controller/room-controller.compone
 import {HttpClientModule} from "@angular/common/http";
 import {MatSliderModule} from "@angular/material/slider";
 import {MatButtonModule} from "@angular/material/button";
+import {BuildingComponent} from './building/building.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    RoomControllerComponent
+    RoomControllerComponent,
+    BuildingComponent
   ],
   imports: [
     BrowserModule,
