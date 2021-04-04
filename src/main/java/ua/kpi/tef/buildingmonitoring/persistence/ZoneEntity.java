@@ -13,6 +13,8 @@ public class ZoneEntity {
     @Id
     @GeneratedValue
     private Long id;
+    @Column(nullable = false)
+    private String name;
     @Column(updatable = false, unique = true, nullable = false)
     private UUID uuid;
     @Column(updatable = false, unique = true, nullable = false)

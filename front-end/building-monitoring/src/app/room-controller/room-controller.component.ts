@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
+import {Room} from "./room";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-room-controller',
@@ -8,15 +10,21 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class RoomControllerComponent implements OnInit {
 
-  id:string|null = null;
+  uuid: string | null = null;
+    room!: Room;
 
   constructor(
     private route: ActivatedRoute,
-
-  ) { }
+    private http: HttpClient
+  ) {
+  }
 
   ngOnInit(): void {
-    this.id = this.route.snapshot.paramMap.get('id');
+    this.uuid = this.route.snapshot.paramMap.get('uuid');
+      this.http.get<Room>("http://localhost:8080/zone/" + this.uuid)
+        .subscribe((room: Room) => {
+          this.room = room
+        });
   }
 
 }

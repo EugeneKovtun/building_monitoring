@@ -32,7 +32,6 @@ public class ZoneController {
 
     @PutMapping("/{uuid}")
     public Zone changeZoneParameters(@RequestBody Zone zone, @PathVariable UUID uuid) {
-        validateZone(zone);
         try {
             return buildingService.updateZone(zone, uuid);
         } catch (NoSuchElementException e) {
@@ -48,7 +47,8 @@ public class ZoneController {
     }
 
 
-    private void validateZone(Zone zone) {
-        // TODO: 04.03.21 add validation
+    @GetMapping("/{uuid}")
+    public Zone getZone(@PathVariable UUID uuid) {
+        return  buildingService.getZone(uuid);
     }
 }

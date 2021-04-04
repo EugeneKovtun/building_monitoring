@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {RoomControllerComponent} from "./room-controller/room-controller.component";
 
 const routes: Routes = [
-  {path:"room/:id", component:RoomControllerComponent}
+  {path:"room/:uuid", component:RoomControllerComponent}
 ];
 
 @NgModule({

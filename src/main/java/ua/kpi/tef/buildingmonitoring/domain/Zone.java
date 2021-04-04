@@ -7,6 +7,8 @@ import lombok.Data;
 @Data
 public class Zone {
     private UUID uuid;
+    @NotNull
+    private String name;
     private Integer temperature;
     private Integer humidity;
     @NotNull

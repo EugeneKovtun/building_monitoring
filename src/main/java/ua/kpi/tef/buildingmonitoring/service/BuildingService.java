@@ -6,7 +6,10 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import javax.transaction.Transactional;
 import org.mapstruct.factory.Mappers;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.server.ResponseStatusException;
 import ua.kpi.tef.buildingmonitoring.domain.Zone;
 import ua.kpi.tef.buildingmonitoring.mapping.ZoneMapper;
 import ua.kpi.tef.buildingmonitoring.persistence.ZoneEntity;
@@ -66,4 +69,10 @@ public class BuildingService {
         zoneEntity.setClientId(zone.getClientId());
     }
 
+    public Zone getZone(UUID uuid) {
+        return zoneRepository.findByUuid(uuid).map(zoneMapper::map)
+                .orElseThrow(()-> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Zone with uuid " + uuid + " not found"));
+    }
 }
