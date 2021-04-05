@@ -8,7 +8,6 @@ import javax.transaction.Transactional;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.server.ResponseStatusException;
 import ua.kpi.tef.buildingmonitoring.domain.Zone;
 import ua.kpi.tef.buildingmonitoring.mapping.ZoneMapper;
@@ -31,14 +30,11 @@ public class BuildingService {
     }
 
     @Transactional
-    public Zone updateZone(Zone zone, UUID uuid) {
-        // TODO: 04.03.21 find Zone in DB
-        // TODO: send request to mqtt
-        // TODO: 04.03.21 return new entity
+    public Zone updateZone(Zone zone, UUID uuid) throws Exception {
 
 
         ZoneEntity zoneEntity = zoneRepository.findByUuid(uuid).orElseThrow();
-        mqttAdapter.updateZone(zone);
+        mqttAdapter.setZoneParameters(zone);
         prepareUpdatedZoneEntity(zone, zoneEntity);
         return zoneMapper.map(zoneRepository.save(zoneEntity));
     }
@@ -47,15 +43,13 @@ public class BuildingService {
     public Zone createZone(Zone zone) throws Exception {
         zone.setUuid(UUID.randomUUID());
         Zone resultZone = zoneMapper.map(zoneRepository.save(zoneMapper.map(zone)));
-        mqttAdapter.initializeZone(resultZone);
+        mqttAdapter.setZoneParameters(resultZone);
         return resultZone;
     }
 
 
     @Transactional
     public List<Zone> getAllZones() {
-        // TODO: 04.03.21 add permission check 
-
         return StreamSupport.stream(
                 zoneRepository.findAll().spliterator(), false)
                 .map(zoneMapper::map)
@@ -71,7 +65,7 @@ public class BuildingService {
 
     public Zone getZone(UUID uuid) {
         return zoneRepository.findByUuid(uuid).map(zoneMapper::map)
-                .orElseThrow(()-> new ResponseStatusException(
+                .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND,
                         "Zone with uuid " + uuid + " not found"));
     }

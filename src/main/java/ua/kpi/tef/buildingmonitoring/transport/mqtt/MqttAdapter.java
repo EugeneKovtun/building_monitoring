@@ -18,10 +18,10 @@ import ua.kpi.tef.buildingmonitoring.mapping.ZoneMapper;
 @Component
 public class MqttAdapter {
 
-    private final String publisherId = "monitoring-service";
-    private final IMqttClient publisher = new MqttClient("tcp://localhost:1883", publisherId);
+    private static final String PUBLISHER_ID = "monitoring-service";
+    private final IMqttClient publisher = new MqttClient("tcp://localhost:1883", PUBLISHER_ID);
     private final ObjectMapper objectMapper = new ObjectMapper();
-    private final Logger LOGGER = LoggerFactory.getLogger(MqttAdapter.class);
+    private final Logger logger = LoggerFactory.getLogger(MqttAdapter.class);
     private final ZoneMapper zoneMapper;
 
     public MqttAdapter() throws MqttException {
@@ -34,8 +34,8 @@ public class MqttAdapter {
         publisher.connect(options);
     }
 
-    public void initializeZone(Zone zone) throws MqttException, JsonProcessingException {
-        LOGGER.info("Initializing zone: " + zone.toString() );
+    public void setZoneParameters(Zone zone) throws MqttException, JsonProcessingException {
+        logger.info("Setting parameters for zone: {}", zone);
         MqttMessage mqttMessage = new MqttMessage();
         mqttMessage.setQos(1);
         ZoneMqtt zoneMqtt = zoneMapper.mapToZoneMqtt(zone);
@@ -46,9 +46,6 @@ public class MqttAdapter {
         publisher.publish("server", mqttMessage);
     }
 
-    public Zone updateZone(Zone zone) {
 
-        return zone;
-    }
 
 }

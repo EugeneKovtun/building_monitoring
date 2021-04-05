@@ -31,14 +31,13 @@ public class ZoneController {
     }
 
     @PutMapping("/{uuid}")
-    public Zone changeZoneParameters(@RequestBody Zone zone, @PathVariable UUID uuid) {
+    public Zone updateZoneParameters(@RequestBody Zone zone, @PathVariable UUID uuid) throws Exception {
         try {
             return buildingService.updateZone(zone, uuid);
         } catch (NoSuchElementException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                     "Zone with UUID:" + uuid + " not found.");
         }
-
     }
 
     @GetMapping
@@ -49,6 +48,6 @@ public class ZoneController {
 
     @GetMapping("/{uuid}")
     public Zone getZone(@PathVariable UUID uuid) {
-        return  buildingService.getZone(uuid);
+        return buildingService.getZone(uuid);
     }
 }
