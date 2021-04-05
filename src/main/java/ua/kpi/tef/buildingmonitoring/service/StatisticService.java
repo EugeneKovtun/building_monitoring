@@ -26,6 +26,36 @@ public class StatisticService {
 
     public void saveStats(ZoneMqtt zoneMqtt) {
         ZoneEntity zoneEntity = zoneRepository.findByClientId(zoneMqtt.getClientId()).orElseThrow();
+        StatisticEntity statisticEntity = createStatisticEntity(zoneMqtt, zoneEntity);
+
+        List<StatisticEntity> lastRecords = statisticRepository.find2LastRecords(zoneEntity);
+        if (lastRecords.size() < 2) {
+            statisticRepository.save(statisticEntity);
+        }
+        if (!lastRecords.get(0).equals(lastRecords.get(1))) {
+            statisticRepository.save(statisticEntity);
+        }
+        // TODO: 06.04.21 add logic to saving statistic according to following rules
+        // TODO: 06.04.21 1->save 2->save 3=2=1? save 3 delete 2 : save 3
+
+        // TODO: 06.04.21 test it
+        saveStatisticEntityIfNeeded(statisticEntity, lastRecords);
+    }
+
+    private void saveStatisticEntityIfNeeded(StatisticEntity statisticEntity, List<StatisticEntity> lastRecords) {
+        if (lastRecords.size() < 2) {
+            statisticRepository.save(statisticEntity);
+            return;
+        }
+        if (statisticEntity.equals(lastRecords.get(0)) && statisticEntity.equals(lastRecords.get(1))) {
+            statisticRepository.delete(lastRecords.get(1));
+            statisticRepository.save(statisticEntity);
+            return;
+        }
+        statisticRepository.save(statisticEntity);
+    }
+
+    private StatisticEntity createStatisticEntity(ZoneMqtt zoneMqtt, ZoneEntity zoneEntity) {
         StatisticEntity statisticEntity = new StatisticEntity();
         statisticEntity.setHumidity(zoneEntity.getHumidity());
         statisticEntity.setTemperature(zoneEntity.getTemperature());
@@ -33,8 +63,7 @@ public class StatisticService {
         statisticEntity.setActualTemperature(zoneEntity.getTemperature());
         statisticEntity.setDateTime(LocalDateTime.now());
         statisticEntity.setZone(zoneEntity);
-
-        statisticRepository.save(statisticEntity);
+        return statisticEntity;
     }
 
     public List<StatisticalState> getAll() {
@@ -43,9 +72,9 @@ public class StatisticService {
                 .map(statisticMapper::map).collect(Collectors.toList());
     }
 
-    public List<StatisticalState> getStatisticPerRoom(UUID uuid) {
+    public List<StatisticalState> getStatisticPerRoom(UUID uuid, LocalDateTime startDate, LocalDateTime endDate) {
         return statisticRepository.findByZone(zoneRepository.findByUuid(uuid).get())
-                .parallelStream()
+                .stream()
                 .map(statisticMapper::map).collect(Collectors.toList());
     }
 }
