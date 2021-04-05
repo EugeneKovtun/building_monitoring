@@ -1,11 +1,16 @@
 <h1>{{room.name}}</h1>
 <br>
 <h1>
+  <button (click)="decreaseTemperature()">down</button>
   Temperature:
   {{room.temperature}}
+  <button (click)="increaseTemperature()">up</button>
 </h1>
 <br>
 <h1>
+  <button (click)="decreaseHumidity()">down</button>
   Humidity
   {{room.humidity}}
+  <button (click)="increaseHumidity()">up</button>
+
 </h1>

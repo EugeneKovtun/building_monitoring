@@ -11,7 +11,7 @@ import {HttpClient} from "@angular/common/http";
 export class RoomControllerComponent implements OnInit {
 
   uuid: string | null = null;
-    room!: Room;
+  room!: Room;
 
   constructor(
     private route: ActivatedRoute,
@@ -21,10 +21,30 @@ export class RoomControllerComponent implements OnInit {
 
   ngOnInit(): void {
     this.uuid = this.route.snapshot.paramMap.get('uuid');
-      this.http.get<Room>("http://localhost:8080/zone/" + this.uuid)
-        .subscribe((room: Room) => {
-          this.room = room
-        });
+    this.http.get<Room>("http://localhost:8080/zone/" + this.uuid)
+      .subscribe((room: Room) => {
+        this.room = room
+      });
   }
 
+  decreaseTemperature() {
+    this.room.temperature--;
+    this.http.put("http://localhost:8080/zone/" + this.uuid, this.room).subscribe()
+  }
+
+  increaseTemperature() {
+    this.room.temperature++;
+    this.http.put("http://localhost:8080/zone/" + this.uuid, this.room).subscribe()
+  }
+
+  decreaseHumidity() {
+    this.room.humidity--;
+    this.http.put("http://localhost:8080/zone/" + this.uuid, this.room).subscribe()
+  }
+
+  increaseHumidity() {
+    this.room.humidity++;
+    this.http.put("http://localhost:8080/zone/" + this.uuid, this.room).subscribe()
+
+  }
 }
