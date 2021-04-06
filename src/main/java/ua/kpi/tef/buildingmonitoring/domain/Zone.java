@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class Zone {
     private UUID uuid;
-    @NotNull
+    @NotNull(message = "Name cannot be null")
     private String name;
     private Integer temperature;
     private Integer humidity;

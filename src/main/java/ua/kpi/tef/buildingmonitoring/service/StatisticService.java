@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
+import javax.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
@@ -24,17 +25,13 @@ public class StatisticService {
     private final StatisticRepository statisticRepository;
     private final StatisticMapper statisticMapper = Mappers.getMapper(StatisticMapper.class);
 
+    @Transactional
     public void saveStats(ZoneMqtt zoneMqtt) {
         ZoneEntity zoneEntity = zoneRepository.findByClientId(zoneMqtt.getClientId()).orElseThrow();
         StatisticEntity statisticEntity = createStatisticEntity(zoneMqtt, zoneEntity);
 
         List<StatisticEntity> lastRecords = statisticRepository.find2LastRecords(zoneEntity);
-        if (lastRecords.size() < 2) {
-            statisticRepository.save(statisticEntity);
-        }
-        if (!lastRecords.get(0).equals(lastRecords.get(1))) {
-            statisticRepository.save(statisticEntity);
-        }
+
         // TODO: 06.04.21 add logic to saving statistic according to following rules
         // TODO: 06.04.21 1->save 2->save 3=2=1? save 3 delete 2 : save 3
 
@@ -48,7 +45,7 @@ public class StatisticService {
             return;
         }
         if (statisticEntity.equals(lastRecords.get(0)) && statisticEntity.equals(lastRecords.get(1))) {
-            statisticRepository.delete(lastRecords.get(1));
+            statisticRepository.delete(lastRecords.get(0));
             statisticRepository.save(statisticEntity);
             return;
         }
@@ -59,8 +56,10 @@ public class StatisticService {
         StatisticEntity statisticEntity = new StatisticEntity();
         statisticEntity.setHumidity(zoneEntity.getHumidity());
         statisticEntity.setTemperature(zoneEntity.getTemperature());
+
         statisticEntity.setActualHumidity(zoneMqtt.getHumidity());
-        statisticEntity.setActualTemperature(zoneEntity.getTemperature());
+        statisticEntity.setActualTemperature(zoneMqtt.getTemperature());
+
         statisticEntity.setDateTime(LocalDateTime.now());
         statisticEntity.setZone(zoneEntity);
         return statisticEntity;
