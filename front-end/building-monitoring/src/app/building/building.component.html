@@ -1,5 +1,3 @@
-<ul>
-  <li *ngFor="let room of rooms">
-    <a href="/room/{{room.uuid}}">{{room.name }}</a>
-  </li>
-</ul>
+<mat-list>
+    <a mat-list-item *ngFor="let room of rooms" [routerLink]="['/stats', room.uuid]">{{room.name}}</a>
+</mat-list>
