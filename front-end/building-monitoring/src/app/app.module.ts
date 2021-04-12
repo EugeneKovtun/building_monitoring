@@ -16,13 +16,15 @@ import {MatNativeDateModule} from "@angular/material/core";
 import {MatIconModule} from "@angular/material/icon";
 import {MatListModule} from "@angular/material/list";
 import {ReactiveFormsModule} from "@angular/forms";
+import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         RoomControllerComponent,
         BuildingComponent,
-        StatisticComponent
+        StatisticComponent,
+        AdminPanelComponent
     ],
     imports: [
         BrowserModule,
