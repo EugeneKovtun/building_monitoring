@@ -6,10 +6,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./admin-panel.component.css']
 })
 export class AdminPanelComponent implements OnInit {
+  dateSelectiveForm: any;
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  submit() {
+
+  }
 }
