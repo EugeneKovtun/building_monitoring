@@ -1,18 +1,25 @@
-<h1>Create New Room</h1>
-<form [formGroup]="dateSelectiveForm" (ngSubmit)="submit()">
-    <mat-form-field appearance="fill">
-        <mat-label>Enter a date range</mat-label>
-        <mat-date-range-input [rangePicker]="picker">
-            <label>
-                <input matStartDate placeholder="Start date">
-            </label>
-            <label>
-                <input matEndDate placeholder="End date">
-            </label>
-        </mat-date-range-input>
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-date-range-picker #picker></mat-date-range-picker>
-    </mat-form-field>
-    <button mat-button type="submit" color="accent">Показати</button>
+<h1>Створити нову кімнату</h1>
+<form [formGroup]="roomCreationForm" (ngSubmit)="submit()">
+  <mat-form-field>
+    <mat-label>Назва:</mat-label>
+    <input type="text" matInput formControlName="name">
+  </mat-form-field>
+  <br>
+  <mat-form-field>
+    <mat-label>Клієнтський ID:</mat-label>
+    <input type="text" matInput formControlName="clientId">
+  </mat-form-field>
+  <br>
+  <mat-form-field>
+    <mat-label>Температура:</mat-label>
+    <input type="number" matInput formControlName="temperature">
+  </mat-form-field>
+  <br>
+  <mat-form-field>
+    <mat-label>Вологість:</mat-label>
+    <input type="number"  matInput formControlName="humidity">
+  </mat-form-field>
+  <br>
+  <button mat-button type="submit" color="accent">Створити</button>
 
 </form>
