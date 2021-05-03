@@ -16,7 +16,7 @@ export class BuildingComponent implements OnInit {
 
   ngOnInit(): void {
     this.http.get<Room[]>("http://localhost:8080/zone/")
-      .subscribe((rooms: Room[]) => this.rooms = rooms)
+      .subscribe((rooms: Room[]) => this.rooms = rooms.sort())
   }
 
 }
