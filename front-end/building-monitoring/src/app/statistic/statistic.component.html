@@ -28,8 +28,23 @@
                        [showXAxisLabel]="showXAxisLabel"
                        [showYAxisLabel]="showYAxisLabel"
                        [xAxisLabel]="xAxisLabel"
-                       [yAxisLabel]="yAxisLabel"
-                       [autoScale]="autoScale"
->
+                       [yAxisLabel]="yAxisLabelTemperature"
+                       [autoScale]="autoScale">
+
+</ngx-charts-line-chart>
+<ngx-charts-line-chart *ngIf="humidityStats.length != 0"
+                       [view]="view"
+                       [scheme]="colorScheme"
+                       [timeline]="timeline"
+                       [results]="humidityStats"
+                       [gradient]="gradient"
+                       [xAxis]="showXAxis"
+                       [yAxis]="showYAxis"
+                       [legend]="showLegend"
+                       [showXAxisLabel]="showXAxisLabel"
+                       [showYAxisLabel]="showYAxisLabel"
+                       [xAxisLabel]="xAxisLabel"
+                       [yAxisLabel]="yAxisLabelHumidity"
+                       [autoScale]="autoScale">
 
 </ngx-charts-line-chart>

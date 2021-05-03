@@ -26,9 +26,11 @@ export class StatisticComponent implements OnInit {
   showXAxisLabel = true;
   xAxisLabel = 'Time';
   showYAxisLabel = true;
-  yAxisLabel = 'Temperature';
+  yAxisLabelTemperature = 'Temperature';
+  yAxisLabelHumidity = 'Humidity';
   autoScale = true;
   temperatureStats: { name: string, series: { name: Date, value: number }[] }[] = [];
+  humidityStats: { name: string, series: { name: Date, value: number }[] }[] = [];
 
 
   colorScheme = {
@@ -45,57 +47,44 @@ export class StatisticComponent implements OnInit {
     this.http.get<StatisticEntity[]>("http://localhost:8080/stats/" + this.uuid)
       .subscribe((x: StatisticEntity[]) => this.prepareStats(x));
 
-
-    // this.temperatureStats.push({
-    //   "name": "Задана Температура",
-    //     "series": [
-    //     {
-    //       "name":  new Date("2021-05-03T01:34:28.25627"),
-    //       "value": 21
-    //     },
-    //     {
-    //       "name": new Date("2021-05-03T01:34:55.19915"),
-    //       "value": 22
-    //     },
-    //     {
-    //       "name": new Date("2021-05-03T01:35:12.912218"),
-    //       "value": 22
-    //     },
-    //     {
-    //       "name": new Date("2021-05-03T01:35:21.259734"),
-    //       "value": 23
-    //     },
-    //     {
-    //       "name": new Date("2021-05-03T01:35:29.857712"),
-    //       "value": 22
-    //     },
-    //     {
-    //       "name": new Date("2021-05-03T01:46:44.422806"),
-    //       "value": 25
-    //     }
-    //   ]
-    // })
     console.log(this.temperatureStats)
   }
 
-  prepareStats(statsEntity: StatisticEntity[]) {
-    console.log(statsEntity)
+  prepareStats(statisticEntities: StatisticEntity[]) {
+    console.log(statisticEntities)
     let actualTemperature: { name: Date; value: number; }[] = [];
-    statsEntity.forEach(function (value) {
-      actualTemperature.push({name: new Date(value.dateTime), value: value.actualTemperature})
+    let expectedTemperature: { name: Date; value: number; }[] = [];
+    let deltaTemperature: { name: Date; value: number; }[] = [];
+
+    let actualHumidity: { name: Date; value: number; }[] = [];
+    let expectedHumidity: { name: Date; value: number; }[] = [];
+    let deltaHumidity: { name: Date; value: number; }[] = [];
+
+
+    statisticEntities.forEach(function (statisticEntity) {
+      actualTemperature.push({name: new Date(statisticEntity.dateTime), value: statisticEntity.actualTemperature})
+      expectedTemperature.push({name: new Date(statisticEntity.dateTime), value: statisticEntity.temperature})
+      deltaTemperature.push({
+        name: new Date(statisticEntity.dateTime),
+        value: Math.abs(statisticEntity.temperature - statisticEntity.actualTemperature)
+      })
+
+      actualHumidity.push({name: new Date(statisticEntity.dateTime), value: statisticEntity.actualHumidity})
+      expectedHumidity.push({name: new Date(statisticEntity.dateTime), value: statisticEntity.humidity})
+      deltaHumidity.push({
+        name: new Date(statisticEntity.dateTime),
+        value: Math.abs(statisticEntity.humidity - statisticEntity.actualHumidity)
+      })
     })
 
     this.temperatureStats.push({name: "Реальна Температура", series: actualTemperature})
-
-    let expectedTemperature: { name: Date; value: number; }[] = [];
-
-    statsEntity.forEach(function (value){
-      expectedTemperature.push({name: new Date(value.dateTime), value: value.temperature})
-    })
-
     this.temperatureStats.push({name: "Задана температура", series: expectedTemperature})
+    this.temperatureStats.push({name: "Дельта", series: deltaTemperature})
 
 
+    this.humidityStats.push({name: "Реальна вологість", series: actualHumidity})
+    this.humidityStats.push({name: "Задана вологість", series: expectedHumidity})
+    this.humidityStats.push({name: "Дельта", series: deltaHumidity})
   }
 
   submit() {
