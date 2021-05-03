@@ -1,6 +1,7 @@
 package ua.kpi.tef.buildingmonitoring.service;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -74,6 +75,8 @@ public class StatisticService {
     public List<StatisticalState> getStatisticPerRoom(UUID uuid, LocalDateTime startDate, LocalDateTime endDate) {
         return statisticRepository.findByZone(zoneRepository.findByUuid(uuid).get())
                 .stream()
-                .map(statisticMapper::map).collect(Collectors.toList());
+                .map(statisticMapper::map)
+                .sorted(Comparator.comparing(StatisticalState::getDateTime))
+                .collect(Collectors.toList());
     }
 }

@@ -27,7 +27,7 @@ public class StatisticController {
 
     @GetMapping("{uuid}")
     public List<StatisticalState> getStatisticsPerZone(@PathVariable UUID uuid,
-                                                       @RequestParam
+                                                       @RequestParam(required = false)
                                                        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
                                                                LocalDateTime startDate,
                                                        @RequestParam(required = false)

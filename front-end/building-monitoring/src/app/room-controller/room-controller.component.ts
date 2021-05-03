@@ -25,6 +25,9 @@ export class RoomControllerComponent implements OnInit {
       .subscribe((room: Room) => {
         this.room = room
       });
+
+    this.http.get("http://localhost:8080/stats/"+ this.uuid)
+      .subscribe((x:any)=> console.log(x));
   }
 
   decreaseTemperature() {

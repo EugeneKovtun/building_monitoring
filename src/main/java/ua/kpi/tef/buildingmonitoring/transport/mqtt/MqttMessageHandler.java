@@ -26,7 +26,7 @@ public class MqttMessageHandler implements MessageHandler {
             ZoneMqtt zoneMqtt = mapper.readValue(message.getPayload().toString(), ZoneMqtt.class);
             statisticService.saveStats(zoneMqtt);
         } catch (JsonProcessingException e) {
-            LOGGER.error("Unable to parse message", e);
+            LOGGER.error("Unable to parse message: {}", message.getPayload());
         }
 
     }
