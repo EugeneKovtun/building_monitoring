@@ -17,6 +17,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatListModule} from "@angular/material/list";
 import {ReactiveFormsModule} from "@angular/forms";
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
+import {NgxChartsModule} from "@swimlane/ngx-charts";
 
 @NgModule({
     declarations: [
@@ -38,7 +39,8 @@ import { AdminPanelComponent } from './admin-panel/admin-panel.component';
         MatNativeDateModule,
         MatIconModule,
         MatListModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        NgxChartsModule
     ],
     providers: [],
     bootstrap: [AppComponent]
