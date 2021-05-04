@@ -10,4 +10,7 @@ public interface ZoneRepository extends CrudRepository<ZoneEntity, Long> {
     Optional<ZoneEntity> findByUuid(UUID uuid);
 
     Optional<ZoneEntity> findByClientId(String clientId);
+
+    void deleteByUuid(UUID uuid);
+
 }

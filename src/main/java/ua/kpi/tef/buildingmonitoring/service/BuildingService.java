@@ -69,4 +69,9 @@ public class BuildingService {
                         HttpStatus.NOT_FOUND,
                         "Zone with uuid " + uuid + " not found"));
     }
+
+    @Transactional
+    public void deleteZone(UUID uuid) {
+        zoneRepository.deleteByUuid(uuid);
+    }
 }
