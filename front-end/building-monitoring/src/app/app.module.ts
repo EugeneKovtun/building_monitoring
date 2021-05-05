@@ -16,34 +16,37 @@ import {MatNativeDateModule} from "@angular/material/core";
 import {MatIconModule} from "@angular/material/icon";
 import {MatListModule} from "@angular/material/list";
 import {ReactiveFormsModule} from "@angular/forms";
-import { AdminPanelComponent } from './admin-panel/admin-panel.component';
+import {AdminPanelComponent} from './admin-panel/admin-panel.component';
 import {NgxChartsModule} from "@swimlane/ngx-charts";
+import {NgxMatDatetimePickerModule, NgxMatNativeDateModule} from "@angular-material-components/datetime-picker";
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        RoomControllerComponent,
-        BuildingComponent,
-        StatisticComponent,
-        AdminPanelComponent
-    ],
-    imports: [
-        BrowserModule,
-        MatSliderModule,
-        HttpClientModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        MatButtonModule,
-        MatDatepickerModule,
-        MatInputModule,
-        MatNativeDateModule,
-        MatIconModule,
-        MatListModule,
-        ReactiveFormsModule,
-        NgxChartsModule
-    ],
-    providers: [],
-    bootstrap: [AppComponent]
+  declarations: [
+    AppComponent,
+    RoomControllerComponent,
+    BuildingComponent,
+    StatisticComponent,
+    AdminPanelComponent
+  ],
+  imports: [
+    BrowserModule,
+    MatSliderModule,
+    HttpClientModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatButtonModule,
+    MatDatepickerModule,
+    MatInputModule,
+    MatNativeDateModule,
+    MatIconModule,
+    MatListModule,
+    ReactiveFormsModule,
+    NgxChartsModule,
+    NgxMatDatetimePickerModule,
+    NgxMatNativeDateModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
 })
 export class AppModule {
 }

@@ -1,17 +1,27 @@
 <app-room-controller [ngStyle]="{display:'inline-block'}"></app-room-controller>
 <form [formGroup]="dateSelectiveForm" (ngSubmit)="submit()">
-  <mat-form-field appearance="fill">
-    <mat-label>Enter a date range</mat-label>
-    <mat-date-range-input [rangePicker]="picker">
-      <label>
-        <input matStartDate placeholder="Start date">
-      </label>
-      <label>
-        <input matEndDate placeholder="End date">
-      </label>
-    </mat-date-range-input>
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-date-range-picker #picker></mat-date-range-picker>
+  <mat-form-field>
+    <input matInput [ngxMatDatetimePicker]="startDatePicker" placeholder="Start date"
+           formControlName="startDate"
+
+           (dateChange)="dateUpdated()">
+    <mat-datepicker-toggle matSuffix [for]="$any(startDatePicker)"></mat-datepicker-toggle>
+    <ngx-mat-datetime-picker #startDatePicker [showSpinners]="true" [showSeconds]="false"
+                             [stepHour]="1" [stepMinute]="1" [stepSecond]="1"
+                             [touchUi]="false" [enableMeridian]="false"
+                             [disableMinute]="false" [hideTime]="false">
+    </ngx-mat-datetime-picker>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput [ngxMatDatetimePicker]="endDatePicker" placeholder="End date"
+           formControlName="endDate"
+           (dateChange)="dateUpdated()">
+    <mat-datepicker-toggle matSuffix [for]="$any(endDatePicker)"></mat-datepicker-toggle>
+    <ngx-mat-datetime-picker #endDatePicker [showSpinners]="true" [showSeconds]="false"
+                             [stepHour]="1" [stepMinute]="1" [stepSecond]="1"
+                             [touchUi]="false" [enableMeridian]="false"
+                             [disableMinute]="false" [hideTime]="false">
+    </ngx-mat-datetime-picker>
   </mat-form-field>
   <button mat-button type="submit" color="accent">Показати</button>
 

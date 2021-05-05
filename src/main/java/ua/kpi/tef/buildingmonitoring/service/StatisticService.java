@@ -1,6 +1,7 @@
 package ua.kpi.tef.buildingmonitoring.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
@@ -32,11 +33,6 @@ public class StatisticService {
         StatisticEntity statisticEntity = createStatisticEntity(zoneMqtt, zoneEntity);
 
         List<StatisticEntity> lastRecords = statisticRepository.find2LastRecords(zoneEntity);
-
-        // TODO: 06.04.21 add logic to saving statistic according to following rules
-        // TODO: 06.04.21 1->save 2->save 3=2=1? save 3 delete 2 : save 3
-
-        // TODO: 06.04.21 test it
         saveStatisticEntityIfNeeded(statisticEntity, lastRecords);
     }
 
@@ -73,10 +69,25 @@ public class StatisticService {
     }
 
     public List<StatisticalState> getStatisticPerRoom(UUID uuid, LocalDateTime startDate, LocalDateTime endDate) {
-        return statisticRepository.findByZone(zoneRepository.findByUuid(uuid).get())
+
+
+        List<StatisticalState> statisticalStates = statisticRepository.findByZone(zoneRepository.findByUuid(uuid).get())
                 .stream()
                 .map(statisticMapper::map)
                 .sorted(Comparator.comparing(StatisticalState::getDateTime))
                 .collect(Collectors.toList());
+
+        List<StatisticalState> toBeRemoved = new ArrayList<>();
+        for (int i = 1; i < statisticalStates.size()-1; i++) {
+            if (startDate != null && statisticalStates.get(i).getDateTime().compareTo(startDate) < 0) {
+                toBeRemoved.add(statisticalStates.get(i-1));
+            }
+            if (endDate != null && statisticalStates.get(i).getDateTime().compareTo(endDate) > 0) {
+                toBeRemoved.add(statisticalStates.get(i+1));
+            }
+        }
+
+        toBeRemoved.forEach(statisticalStates::remove);
+        return statisticalStates;
     }
 }
