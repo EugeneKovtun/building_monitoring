@@ -1,41 +1,44 @@
-<div class="inline">
-  <mat-nav-list>
-    <mat-list-item *ngFor="let room of rooms">
-      <a (click)="navigate(room)">{{room.name}}</a>
-      <button mat-icon-button (click)="deleteZone(room)">
-        <mat-icon>delete</mat-icon>
-      </button>
-      <button mat-icon-button (click)="openQR(room)">
-        <mat-icon>qr_code</mat-icon>
-      </button>
-    </mat-list-item>
-  </mat-nav-list>
-</div>
-<div class="inline">
-  <h1>Створити нову кімнату</h1>
+<div style="display: flex">
+  <div class="inline" style="width: 40%;">
+    <mat-nav-list>
+      <mat-list-item *ngFor="let room of rooms">
+        <h3 mat-line (click)="navigate(room)">{{room.name}}</h3>
+        <div style="display: flex; float: right">
+          <button mat-icon-button (click)="openQR(room)">
+            <mat-icon>qr_code</mat-icon>
+          </button>
+          <button mat-icon-button (click)="deleteZone(room)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </mat-list-item>
+    </mat-nav-list>
+  </div>
+  <div class="inline">
+    <h1>Створити нову кімнату</h1>
+    <form [formGroup]="roomCreationForm" (ngSubmit)="submit()" autocomplete="off">
+      <mat-form-field>
+        <mat-label>Назва:</mat-label>
+        <input type="text" matInput formControlName="name">
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <mat-label>Клієнтський ID:</mat-label>
+        <input type="text" matInput formControlName="clientId">
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <mat-label>Температура:</mat-label>
+        <input type="number" matInput formControlName="temperature">
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <mat-label>Вологість:</mat-label>
+        <input type="number" matInput formControlName="humidity">
+      </mat-form-field>
+      <br>
+      <button mat-button type="submit" color="accent">Створити</button>
 
-  <form [formGroup]="roomCreationForm" (ngSubmit)="submit()" autocomplete="off">
-    <mat-form-field>
-      <mat-label>Назва:</mat-label>
-      <input type="text" matInput formControlName="name">
-    </mat-form-field>
-    <br>
-    <mat-form-field>
-      <mat-label>Клієнтський ID:</mat-label>
-      <input type="text" matInput formControlName="clientId">
-    </mat-form-field>
-    <br>
-    <mat-form-field>
-      <mat-label>Температура:</mat-label>
-      <input type="number" matInput formControlName="temperature">
-    </mat-form-field>
-    <br>
-    <mat-form-field>
-      <mat-label>Вологість:</mat-label>
-      <input type="number" matInput formControlName="humidity">
-    </mat-form-field>
-    <br>
-    <button mat-button type="submit" color="accent">Створити</button>
-
-  </form>
+    </form>
+  </div>
 </div>

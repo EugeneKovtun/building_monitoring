@@ -18,7 +18,7 @@ export class AdminPanelComponent implements OnInit {
   });
   rooms!: Room[];
 
-  constructor(private http: HttpClient,  private route:Router) {
+  constructor(private http: HttpClient, private route: Router) {
   }
 
   ngOnInit(): void {
@@ -26,10 +26,10 @@ export class AdminPanelComponent implements OnInit {
   }
 
   submit() {
-    this.http.post("http://localhost:8080/zone", this.roomCreationForm.value).subscribe()
+    this.http.post("http://localhost:8080/zone", this.roomCreationForm.value).subscribe(
+      () => this.getRooms()
+    )
     this.roomCreationForm.reset()
-    console.log(this.roomCreationForm.value)
-    this.getRooms();
   }
 
   navigate(room: Room) {
@@ -43,11 +43,11 @@ export class AdminPanelComponent implements OnInit {
 
   deleteZone(room: Room) {
     this.http.delete("http://localhost:8080/zone/" + room.uuid)
-      .subscribe(()=>this.getRooms())
+      .subscribe(() => this.getRooms())
   }
 
   openQR(room: Room) {
-    window.open("http://localhost:8080/zone/"+ room.uuid + "/qr")
+    window.open("http://localhost:8080/zone/" + room.uuid + "/qr")
 
   }
 }

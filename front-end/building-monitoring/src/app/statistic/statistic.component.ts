@@ -93,8 +93,10 @@ export class StatisticComponent implements OnInit {
     console.log(this.humidityStats)
   }
 
-  submit() {
-    console.log("duck")
+  clear() {
+    this.dateSelectiveForm.reset();
+    this.http.get<StatisticEntity[]>("http://localhost:8080/stats/" + this.uuid)
+      .subscribe((x: StatisticEntity[]) => this.prepareStats(x));
   }
 
   dateUpdated() {

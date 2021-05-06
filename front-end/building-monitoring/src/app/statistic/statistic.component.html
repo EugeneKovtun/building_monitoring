@@ -1,5 +1,5 @@
-<app-room-controller [ngStyle]="{display:'inline-block'}"></app-room-controller>
-<form [formGroup]="dateSelectiveForm" (ngSubmit)="submit()">
+<app-room-controller [ngStyle]="{display:'inline-block', marginTop:'10%'}"></app-room-controller>
+<form [formGroup]="dateSelectiveForm">
   <mat-form-field>
     <input matInput [ngxMatDatetimePicker]="startDatePicker" placeholder="Start date"
            formControlName="startDate"
@@ -12,6 +12,7 @@
                              [disableMinute]="false" [hideTime]="false">
     </ngx-mat-datetime-picker>
   </mat-form-field>
+  <br>
   <mat-form-field>
     <input matInput [ngxMatDatetimePicker]="endDatePicker" placeholder="End date"
            formControlName="endDate"
@@ -23,38 +24,43 @@
                              [disableMinute]="false" [hideTime]="false">
     </ngx-mat-datetime-picker>
   </mat-form-field>
-  <button mat-button type="submit" color="accent">Показати</button>
+  <br>
+  <button mat-button color="accent" (click)="clear()">Очистити</button>
 
 </form>
-<ngx-charts-line-chart *ngIf="temperatureStats.length != 0"
-                       [view]="view"
-                       [scheme]="colorScheme"
-                       [timeline]="timeline"
-                       [results]="temperatureStats"
-                       [gradient]="gradient"
-                       [xAxis]="showXAxis"
-                       [yAxis]="showYAxis"
-                       [legend]="showLegend"
-                       [showXAxisLabel]="showXAxisLabel"
-                       [showYAxisLabel]="showYAxisLabel"
-                       [xAxisLabel]="xAxisLabel"
-                       [yAxisLabel]="yAxisLabelTemperature"
-                       [autoScale]="autoScale">
+<div [ngStyle]="{display:'inline-block', marginTop:'10%'}">
+  <ngx-charts-line-chart *ngIf="temperatureStats.length != 0"
+                         [view]="view"
+                         [scheme]="colorScheme"
+                         [timeline]="timeline"
+                         [results]="temperatureStats"
+                         [gradient]="gradient"
+                         [xAxis]="showXAxis"
+                         [yAxis]="showYAxis"
+                         [legend]="showLegend"
+                         [showXAxisLabel]="showXAxisLabel"
+                         [showYAxisLabel]="showYAxisLabel"
+                         [xAxisLabel]="xAxisLabel"
+                         [yAxisLabel]="yAxisLabelTemperature"
+                         [autoScale]="autoScale">
 
-</ngx-charts-line-chart>
-<ngx-charts-line-chart *ngIf="humidityStats.length != 0"
-                       [view]="view"
-                       [scheme]="colorScheme"
-                       [timeline]="timeline"
-                       [results]="humidityStats"
-                       [gradient]="gradient"
-                       [xAxis]="showXAxis"
-                       [yAxis]="showYAxis"
-                       [legend]="showLegend"
-                       [showXAxisLabel]="showXAxisLabel"
-                       [showYAxisLabel]="showYAxisLabel"
-                       [xAxisLabel]="xAxisLabel"
-                       [yAxisLabel]="yAxisLabelHumidity"
-                       [autoScale]="autoScale">
+  </ngx-charts-line-chart>
+</div>
+<div [ngStyle]="{display:'inline-block', marginTop:'10%'}">
+  <ngx-charts-line-chart *ngIf="humidityStats.length != 0"
+                         [view]="view"
+                         [scheme]="colorScheme"
+                         [timeline]="timeline"
+                         [results]="humidityStats"
+                         [gradient]="gradient"
+                         [xAxis]="showXAxis"
+                         [yAxis]="showYAxis"
+                         [legend]="showLegend"
+                         [showXAxisLabel]="showXAxisLabel"
+                         [showYAxisLabel]="showYAxisLabel"
+                         [xAxisLabel]="xAxisLabel"
+                         [yAxisLabel]="yAxisLabelHumidity"
+                         [autoScale]="autoScale">
 
-</ngx-charts-line-chart>
+  </ngx-charts-line-chart>
+</div>
