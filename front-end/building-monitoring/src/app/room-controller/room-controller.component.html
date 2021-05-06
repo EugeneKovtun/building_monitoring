@@ -2,21 +2,21 @@
     <h1>{{room.name}}</h1>
     <br>
     <h1>
-        <button mat-mini-fab color="warn" (click)="decreaseTemperature()">-1</button>
+        <button mat-mini-fab color="warn" class="left" (click)="decreaseTemperature()">-1</button>
         <div [ngClass]={inline:true}>
-            Temperature:
+            Температура:
             {{room.temperature}}
         </div>
-        <button mat-mini-fab color="warn" (click)="increaseTemperature()">
+        <button mat-mini-fab color="warn"  class="right" (click)="increaseTemperature()">
             <mat-icon>plus_one</mat-icon>
         </button>
     </h1>
     <br>
     <h1>
-        <button mat-mini-fab color="warn" (click)="decreaseHumidity()">-1</button>
-        Humidity
+        <button mat-mini-fab color="warn" class="left" (click)="decreaseHumidity()">-1</button>
+        Вологість:
         {{room.humidity}}
-        <button mat-mini-fab color="warn" (click)="increaseHumidity()">
+        <button mat-mini-fab color="warn" class="right" (click)="increaseHumidity()">
             <mat-icon>plus_one</mat-icon>
         </button>
 

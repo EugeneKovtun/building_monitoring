@@ -1,4 +1,21 @@
-.inline  {
-    display: inline-block;
-    margin: 10px;
+.inline {
+  display: inline-block;
+  margin: 10px;
+}
+
+h1 {
+  text-align: center;
+}
+
+.left {
+  float: left;
+  margin-left: 10px;
+  margin-right: 5px;
+}
+
+.right {
+  float: right;
+  margin-right: 10px;
+  margin-left: 5px;
+
 }
