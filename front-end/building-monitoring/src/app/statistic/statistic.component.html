@@ -1,66 +1,79 @@
-<app-room-controller [ngStyle]="{display:'inline-block', marginTop:'10%'}"></app-room-controller>
-<form [formGroup]="dateSelectiveForm">
-  <mat-form-field>
-    <input matInput [ngxMatDatetimePicker]="startDatePicker" placeholder="Start date"
-           formControlName="startDate"
+<div style="display:flex;">
+  <div style="display: inline-block; margin-left: 4%; margin-right: 10%">
+    <app-room-controller [ngStyle]="{display:'inline-block', marginTop:'10%'}"></app-room-controller>
+    <form [formGroup]="dateSelectiveForm" style="margin-top: 10%">
+      <mat-form-field>
+        <input matInput [ngxMatDatetimePicker]="startDatePicker" placeholder="Start date"
+               formControlName="startDate"
 
-           (dateChange)="dateUpdated()">
-    <mat-datepicker-toggle matSuffix [for]="$any(startDatePicker)"></mat-datepicker-toggle>
-    <ngx-mat-datetime-picker #startDatePicker [showSpinners]="true" [showSeconds]="false"
-                             [stepHour]="1" [stepMinute]="1" [stepSecond]="1"
-                             [touchUi]="false" [enableMeridian]="false"
-                             [disableMinute]="false" [hideTime]="false">
-    </ngx-mat-datetime-picker>
-  </mat-form-field>
-  <br>
-  <mat-form-field>
-    <input matInput [ngxMatDatetimePicker]="endDatePicker" placeholder="End date"
-           formControlName="endDate"
-           (dateChange)="dateUpdated()">
-    <mat-datepicker-toggle matSuffix [for]="$any(endDatePicker)"></mat-datepicker-toggle>
-    <ngx-mat-datetime-picker #endDatePicker [showSpinners]="true" [showSeconds]="false"
-                             [stepHour]="1" [stepMinute]="1" [stepSecond]="1"
-                             [touchUi]="false" [enableMeridian]="false"
-                             [disableMinute]="false" [hideTime]="false">
-    </ngx-mat-datetime-picker>
-  </mat-form-field>
-  <br>
-  <button mat-button color="accent" (click)="clear()">Очистити</button>
+               (dateChange)="dateUpdated()">
+        <mat-datepicker-toggle matSuffix [for]="$any(startDatePicker)"></mat-datepicker-toggle>
+        <ngx-mat-datetime-picker #startDatePicker [showSpinners]="true" [showSeconds]="false"
+                                 [stepHour]="1" [stepMinute]="1" [stepSecond]="1"
+                                 [touchUi]="false" [enableMeridian]="false"
+                                 [disableMinute]="false" [hideTime]="false">
+        </ngx-mat-datetime-picker>
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <input matInput [ngxMatDatetimePicker]="endDatePicker" placeholder="End date"
+               formControlName="endDate"
+               (dateChange)="dateUpdated()">
+        <mat-datepicker-toggle matSuffix [for]="$any(endDatePicker)"></mat-datepicker-toggle>
+        <ngx-mat-datetime-picker #endDatePicker [showSpinners]="true" [showSeconds]="false"
+                                 [stepHour]="1" [stepMinute]="1" [stepSecond]="1"
+                                 [touchUi]="false" [enableMeridian]="false"
+                                 [disableMinute]="false" [hideTime]="false">
+        </ngx-mat-datetime-picker>
+      </mat-form-field>
+      <br>
+      <button mat-stroked-button color="accent" (click)="clear()">Очистити</button>
 
-</form>
-<div [ngStyle]="{display:'inline-block', marginTop:'10%'}">
-  <ngx-charts-line-chart *ngIf="temperatureStats.length != 0"
-                         [view]="view"
-                         [scheme]="colorScheme"
-                         [timeline]="timeline"
-                         [results]="temperatureStats"
-                         [gradient]="gradient"
-                         [xAxis]="showXAxis"
-                         [yAxis]="showYAxis"
-                         [legend]="showLegend"
-                         [showXAxisLabel]="showXAxisLabel"
-                         [showYAxisLabel]="showYAxisLabel"
-                         [xAxisLabel]="xAxisLabel"
-                         [yAxisLabel]="yAxisLabelTemperature"
-                         [autoScale]="autoScale">
+    </form>
+  </div>
+  <div style="display: inline-block">
+    <div [ngStyle]="{marginTop:'10%', display: 'flex'}">
+      <ngx-charts-line-chart *ngIf="temperatureStats.length != 0"
+                             [view]="view"
+                             [scheme]="colorScheme"
+                             [timeline]="timeline"
+                             [results]="temperatureStats"
+                             [gradient]="gradient"
+                             [xAxis]="showXAxis"
+                             [yAxis]="showYAxis"
+                             [legend]="showLegend"
+                             [legendTitle]="legendTitle"
+                             [legendPosition]="legendPosition"
+                             [showXAxisLabel]="showXAxisLabel"
+                             [showYAxisLabel]="showYAxisLabel"
+                             [xAxisLabel]="xAxisLabel"
+                             [yAxisLabel]="yAxisLabelTemperature"
+                             [autoScale]="autoScale"
+                             style="fill: #fff"
+      >
 
-  </ngx-charts-line-chart>
-</div>
-<div [ngStyle]="{display:'inline-block', marginTop:'10%'}">
-  <ngx-charts-line-chart *ngIf="humidityStats.length != 0"
-                         [view]="view"
-                         [scheme]="colorScheme"
-                         [timeline]="timeline"
-                         [results]="humidityStats"
-                         [gradient]="gradient"
-                         [xAxis]="showXAxis"
-                         [yAxis]="showYAxis"
-                         [legend]="showLegend"
-                         [showXAxisLabel]="showXAxisLabel"
-                         [showYAxisLabel]="showYAxisLabel"
-                         [xAxisLabel]="xAxisLabel"
-                         [yAxisLabel]="yAxisLabelHumidity"
-                         [autoScale]="autoScale">
+      </ngx-charts-line-chart>
+    </div>
+    <div [ngStyle]="{marginTop:'10%'}">
+      <ngx-charts-line-chart *ngIf="humidityStats.length != 0"
+                             [view]="view"
+                             [scheme]="colorScheme"
+                             [timeline]="timeline"
+                             [results]="humidityStats"
+                             [gradient]="gradient"
+                             [xAxis]="showXAxis"
+                             [yAxis]="showYAxis"
+                             [legend]="showLegend"
+                             [legendTitle]="legendTitle"
+                             [legendPosition]="legendPosition"
+                             [showXAxisLabel]="showXAxisLabel"
+                             [showYAxisLabel]="showYAxisLabel"
+                             [xAxisLabel]="xAxisLabel"
+                             [yAxisLabel]="yAxisLabelHumidity"
+                             [autoScale]="autoScale"
+                             style="fill: #fff">
 
-  </ngx-charts-line-chart>
+      </ngx-charts-line-chart>
+    </div>
+  </div>
 </div>

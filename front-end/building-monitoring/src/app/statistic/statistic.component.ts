@@ -16,18 +16,20 @@ export class StatisticComponent implements OnInit {
     endDate: new FormControl(''),
   });
   private uuid?: string | null;
-  view: [number, number] = [700, 400];
+  view: [number, number] = [800, 320];
 
   showXAxis = true;
   showYAxis = true;
-  timeline = false;
+  timeline = true;
   gradient = true;
   showLegend = true;
   showXAxisLabel = true;
-  xAxisLabel = 'Time';
+  xAxisLabel = 'Час';
   showYAxisLabel = true;
-  yAxisLabelTemperature = 'Temperature';
-  yAxisLabelHumidity = 'Humidity';
+  yAxisLabelTemperature = 'Температура';
+  yAxisLabelHumidity = 'Вологість';
+  legendTitle = "Параметри";
+  legendPosition = 'below';
   autoScale = true;
   temperatureStats: { name: string, series: { name: Date, value: number }[] }[] = [];
   humidityStats: { name: string, series: { name: Date, value: number }[] }[] = [];
