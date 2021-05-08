@@ -8,6 +8,11 @@
 
 #define DHTPIN 2     // what pin we're connected to
 
+#define LED0 D0
+#define LED1 D1
+#define LED2 D3
+#define LED3 D4
+
 // Uncomment whatever type you're using!
 //#define DHTTYPE DHT11   // DHT 11
 //#define DHTTYPE DHT22   // DHT 22  (AM2302)
@@ -65,6 +70,12 @@ PubSubClient client(wclient);
 
 
 void setup() {
+  pinMode(LED0, OUTPUT); 
+  pinMode(LED1, OUTPUT); 
+  pinMode(LED2, OUTPUT); 
+  pinMode(LED3, OUTPUT); 
+
+
   Serial.begin(9600);
   Serial.println("DHT21 test!");
 
@@ -90,7 +101,7 @@ void loop() {
   Serial.println(client.connected());
 
   sendData();
-  wait(500);
+  wait(5000);
 
 
 }
@@ -122,10 +133,49 @@ void sendData() {
     Serial.print("Temperature: ");
     Serial.print(t);
     Serial.println(" *C");
-    //todo send data
+    if ((temperature - t) > 2 ) {
+      digitalWrite(LED0, HIGH);
+      Serial.println("cooling");
+    } else {
+      digitalWrite(LED0, LOW);
+      Serial.println("Not cooling");
+
+    }
+
+    if ((t - temperature) > 2) {
+      digitalWrite(LED1, HIGH);
+      Serial.println("heating");
+
+    } else {
+      digitalWrite(LED1, LOW);
+      Serial.println("not heating");
+
+    }
+
+    if ((humidity - h) > 2) {
+      digitalWrite(LED2, HIGH);
+      Serial.println("increasing humidity");
+
+    } else {
+      digitalWrite(LED2, LOW);
+      Serial.println("not increasing humidity");
+    }
+
+    if ((h - humidity) > 2) {
+      digitalWrite(LED3, HIGH);
+      Serial.println("decreasing humidity");
+
+    } else {
+      digitalWrite(LED3, LOW);
+      Serial.println(" not decreasing humidity");
+
+    }
+
+
+    //sending data
     const int capacity = JSON_OBJECT_SIZE(3);
     StaticJsonDocument<capacity> doc;
-    doc["temperature"]= (int)t;
+    doc["temperature"] = (int)t;
     doc["humidity"] = (int)h;
     doc["clientId"] = clientId;
     String output;
