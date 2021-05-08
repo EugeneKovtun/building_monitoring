@@ -1,16 +1,17 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {ActivatedRoute} from "@angular/router";
 import {StatisticEntity} from "./statisticEntity";
 import {DataItem} from "@swimlane/ngx-charts";
+import {Subscription, timer} from "rxjs";
 
 @Component({
   selector: 'app-statistic',
   templateUrl: './statistic.component.html',
   styleUrls: ['./statistic.component.css']
 })
-export class StatisticComponent implements OnInit {
+export class StatisticComponent implements OnInit, OnDestroy {
   dateSelectiveForm = this.formBuilder.group({
     startDate: new FormControl(''),
     endDate: new FormControl(''),
@@ -33,6 +34,7 @@ export class StatisticComponent implements OnInit {
   autoScale = true;
   temperatureStats: { name: string, series: { name: Date, value: number }[] }[] = [];
   humidityStats: { name: string, series: { name: Date, value: number }[] }[] = [];
+  subscription?: Subscription;
 
 
   colorScheme = {
@@ -44,8 +46,15 @@ export class StatisticComponent implements OnInit {
   constructor(private http: HttpClient, private route: ActivatedRoute, private formBuilder: FormBuilder) {
   }
 
+  ngOnDestroy(): void {
+      this.subscription?.unsubscribe();
+  }
+
   ngOnInit(): void {
     this.uuid = this.route.snapshot.paramMap.get('uuid');
+    this.subscription = timer(0, 10000).subscribe(() =>
+      this.http.get<StatisticEntity[]>("http://localhost:8080/stats/" + this.uuid)
+        .subscribe((x: StatisticEntity[]) => this.prepareStats(x)))
 
     this.http.get<StatisticEntity[]>("http://localhost:8080/stats/" + this.uuid)
       .subscribe((x: StatisticEntity[]) => this.prepareStats(x));

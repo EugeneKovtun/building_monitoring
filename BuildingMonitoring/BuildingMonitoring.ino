@@ -1,6 +1,8 @@
 #include "DHTesp.h"
 #include "ESP8266WiFi.h"
 #include <PubSubClient.h>
+#include <ArduinoJson.h>
+
 
 
 
@@ -26,7 +28,7 @@ const char *mqtt_server = "192.168.0.105";
 const int mqtt_port = 1883;
 const char *mqtt_user = "";
 const char *mqtt_pass = "";
-
+const char *clientId = "room409";
 
 int status = WL_IDLE_STATUS;     // the Wifi radio's status
 
@@ -109,8 +111,14 @@ void sendData() {
     Serial.print(t);
     Serial.println(" *C");
     //todo send data
-
-    client.publish("client", "hi");
+    const int capacity = JSON_OBJECT_SIZE(3);
+    StaticJsonDocument<capacity> doc;
+    doc["temperature"]= (int)t;
+    doc["humidity"] = (int)h;
+    doc["clientId"] = clientId;
+    String output;
+    serializeJson(doc, output);
+    client.publish("client", output.c_str());
   }
 
 }
