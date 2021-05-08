@@ -31,6 +31,9 @@ const char *mqtt_pass = "";
 const char *clientId = "room409";
 
 int status = WL_IDLE_STATUS;     // the Wifi radio's status
+int temperature = 22;
+int humidity = 30;
+
 
 void callback(char* topic, byte* payload, unsigned int length)
 {
@@ -41,11 +44,19 @@ void callback(char* topic, byte* payload, unsigned int length)
     Serial.print((char)payload[i]);
   }
   Serial.println();
-  delay(20000);
+  const int capacity = JSON_OBJECT_SIZE(3);
+  StaticJsonDocument<capacity> doc;
+  deserializeJson(doc, payload);
+  const char* clientIdFromRequest = doc["clientId"];
+  int _temperature = doc["temperature"];
+  int _humidity = doc["humidity"];
+  Serial.println(_temperature);
+  Serial.println(_humidity);
 
-
-  if (String(topic) == "server") {
-    //todo  parse json and read data
+  if (String(clientId) == String(clientIdFromRequest)) {
+    Serial.println("it's me");
+    temperature = _temperature;
+    humidity = _humidity;
   }
 }
 
@@ -93,6 +104,7 @@ void wait(int time) {
     yield();
   }
 }
+
 
 void sendData() {
   // Reading temperature or humidity takes about 250 milliseconds!

@@ -41,20 +41,25 @@ export class StatisticComponent implements OnInit, OnDestroy {
     domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
   };
   minDate: any;
+  private startDate: string = '';
+  private endDate: string = '';
 
 
   constructor(private http: HttpClient, private route: ActivatedRoute, private formBuilder: FormBuilder) {
   }
 
   ngOnDestroy(): void {
-      this.subscription?.unsubscribe();
+    this.subscription?.unsubscribe();
   }
 
   ngOnInit(): void {
     this.uuid = this.route.snapshot.paramMap.get('uuid');
-    this.subscription = timer(0, 10000).subscribe(() =>
-      this.http.get<StatisticEntity[]>("http://localhost:8080/stats/" + this.uuid)
-        .subscribe((x: StatisticEntity[]) => this.prepareStats(x)))
+    this.subscription = timer(0, 10000).subscribe(() => {
+      let params: HttpParams = new HttpParams().set("startDate", this.startDate).set("endDate", this.endDate);
+
+      this.http.get<StatisticEntity[]>("http://localhost:8080/stats/" + this.uuid, {params: params})
+        .subscribe((x: StatisticEntity[]) => this.prepareStats(x))
+    })
 
     this.http.get<StatisticEntity[]>("http://localhost:8080/stats/" + this.uuid)
       .subscribe((x: StatisticEntity[]) => this.prepareStats(x));
@@ -111,18 +116,21 @@ export class StatisticComponent implements OnInit, OnDestroy {
   }
 
   dateUpdated() {
-    let startDate = '';
     if (this.dateSelectiveForm.get("startDate")?.value) {
-      startDate = new Date(this.dateSelectiveForm.get("startDate")?.value).toISOString()
+      this.startDate = new Date(this.dateSelectiveForm.get("startDate")?.value).toISOString()
+    } else {
+      this.startDate = '';
     }
 
-    let endDate = ''
+
     if (this.dateSelectiveForm.get("endDate")?.value) {
-      endDate = new Date(this.dateSelectiveForm.get("endDate")?.value).toISOString()
+      this.endDate = new Date(this.dateSelectiveForm.get("endDate")?.value).toISOString()
+    } else {
+      this.endDate = '';
     }
 
 
-    let params: HttpParams = new HttpParams().set("startDate", startDate).set("endDate", endDate);
+    let params: HttpParams = new HttpParams().set("startDate", this.startDate).set("endDate", this.endDate);
 
     this.http.get<StatisticEntity[]>("http://localhost:8080/stats/" + this.uuid, {params: params})
       .subscribe((x: StatisticEntity[]) => this.prepareStats(x))
