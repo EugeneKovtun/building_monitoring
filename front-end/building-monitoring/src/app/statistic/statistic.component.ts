@@ -110,6 +110,8 @@ export class StatisticComponent implements OnInit, OnDestroy {
   }
 
   clear() {
+    this.startDate = ''
+    this.endDate = ''
     this.dateSelectiveForm.reset();
     this.http.get<StatisticEntity[]>("http://localhost:8080/stats/" + this.uuid)
       .subscribe((x: StatisticEntity[]) => this.prepareStats(x));
