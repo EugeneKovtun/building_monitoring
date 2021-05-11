@@ -1,5 +1,6 @@
 package ua.kpi.tef.buildingmonitoring.service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -53,6 +54,7 @@ public class BuildingService {
         return StreamSupport.stream(
                 zoneRepository.findAll().spliterator(), false)
                 .map(zoneMapper::map)
+                .sorted(Comparator.comparing(Zone::getName))
                 .collect(Collectors.toList());
     }
 
