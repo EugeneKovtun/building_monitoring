@@ -13,5 +13,4 @@ public class Zone {
     private Integer humidity;
     @NotNull
     private String clientId;
-    private Boolean isPublic = true;
 }

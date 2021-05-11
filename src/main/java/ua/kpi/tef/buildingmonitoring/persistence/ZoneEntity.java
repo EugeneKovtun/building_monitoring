@@ -21,5 +21,4 @@ public class ZoneEntity {
     private String clientId;
     private Integer temperature;
     private Integer humidity;
-    private Boolean isPublic;
 }

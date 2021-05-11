@@ -61,7 +61,6 @@ public class BuildingService {
     private void prepareUpdatedZoneEntity(Zone zone, ZoneEntity zoneEntity) {
         zoneEntity.setHumidity(zone.getHumidity());
         zoneEntity.setTemperature(zone.getTemperature());
-        zoneEntity.setIsPublic(zone.getIsPublic());
         zoneEntity.setClientId(zone.getClientId());
     }
 
