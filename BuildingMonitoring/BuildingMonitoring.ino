@@ -25,8 +25,8 @@
 
 DHTesp dht;
 
-char* ssid = "Muroslava";            // your network SSID (name)
-char* pass = "28032015";        // your network password
+char* ssid = "somessid";            // your network SSID (name)
+char* pass = "password";        // your network password
 
 
 const char *mqtt_server = "192.168.0.105";
